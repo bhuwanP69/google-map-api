@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Google api</title>
+    <style>
+      #map {
+        height: 400px;
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>My Google Map</h1>
+    <div id="map"></div>
+
+    <script>
+      function initMap() {
+        //map options
+
+        let options = {
+          zoom: 10,
+          center: { lat: 27.7172, lng: 85.324 },
+        };
+
+        //new map
+        let map = new google.maps.Map(document.getElementById("map"), options);
+
+        //listen for click on map
+        google.maps.event.addListener(map, "click", (event) => {
+          //add marker
+          addMarker({ coords: event.latLng });
+        });
+
+        // //add marker
+
+        // let marker = new google.maps.Marker({
+        //   position: { lat: 27.7052, lng: 85.3349 },
+        //   map: map,
+        //   icon: "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png",
+        // });
+
+        // let infoWindow = new google.maps.InfoWindow({
+        //   content: "<h1>Maitidevi ktm</h1>",
+        // });
+
+        // marker.addListener("click", () => {
+        //   infoWindow.open(map, marker);
+        // });
+
+        let markers = [
+          {
+            coords: { lat: 27.7052, lng: 85.3349 },
+            iconImage:
+              "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png",
+            content: "<h1>Maitidevi ktm</h1>",
+          },
+          {
+            coords: { lat: 27.6588, lng: 85.3247 },
+            content: "<h1>lalitpur ktm</h1>",
+          },
+          {
+            coords: { lat: 27.671, lng: 85.4298 },
+          },
+        ];
+
+        //loop through markers
+        for (let i = 0; i < markers.length; i++) {
+          addMarker(markers[i]);
+        }
+
+        // addMarker({
+        //   coords: { lat: 27.7052, lng: 85.3349 },
+        //   iconImage:
+        //     "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png",
+        //   content: "<h1>Maitidevi ktm</h1>",
+        // });
+
+        // addMarker({
+        //   coords: { lat: 27.6588, lng: 85.3247 },
+        //   content: "<h1>lalitpur ktm</h1>",
+        // });
+        // addMarker({ coords: { lat: 27.671, lng: 85.4298 } });
+
+        //Add marker function
+        function addMarker(props) {
+          let marker = new google.maps.Marker({
+            position: props.coords,
+            map: map,
+            // icon: props.iconImage,
+          });
+          //check for custom icon
+          if (props.iconImage) {
+            //set icon image
+            marker.setIcon(props.iconImage);
+          }
+          //check for content
+          if (props.content) {
+            let infoWindow = new google.maps.InfoWindow({
+              content: props.content,
+            });
+
+            marker.addListener("click", () => {
+              infoWindow.open(map, marker);
+            });
+          }
+        }
+      }
+    </script>
+    <script
+      async
+      defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDtjiumbLLJ_1SxG5hBXAs6vm_5zA9xExo&callback=initMap"
+    ></script>
+  </body>
+</html>
